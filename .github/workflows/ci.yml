@@ -1,0 +1,34 @@
+name: Angular Build
+
+on:
+  push:
+    branches:
+      - main      # Trigger build on push to main branch
+  pull_request:
+    branches:
+      - main      # Trigger build on pull requests to main branch
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest   # The machine type on which the pipeline will run
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3   # Check out the code in the repository
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'   # Specify the version of Node.js (e.g., 16)
+
+      - name: Install dependencies
+        run: npm install    # Install all project dependencies
+
+      - name: Build the Angular app
+        run: npm run build --prod   # Build the Angular app for production (you can adjust to your needs)
+
+      - name: Upload build artifacts (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: angular-build
+          path: dist/   # Path to the build output folder
